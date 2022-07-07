@@ -554,7 +554,9 @@ implements RestrictedAccess, Threadable, Searchable {
             $tz = new DateTimeZone($cfg->getDbTimezone());
             $dt = new DateTime($this->getReopenDate() ?:
                     $this->getCreateDate(), $tz);
-            $dt = $sla->addGracePeriod($dt, $schedule);
+            if(!is_null($schedule)){
+                $dt = $sla->addGracePeriod($dt, $schedule);
+            }
             // Make sure time is in DB timezone
             $dt->setTimezone($tz);
             return $dt->format('Y-m-d H:i:s');
